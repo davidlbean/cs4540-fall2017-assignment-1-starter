@@ -1,0 +1,14 @@
+Style/Encoding:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 120
+
+Style/SymbolProc:
+  Enabled: false
+
+Style/RedundantSelf:
+  Enabled: false
+
+Style/WordArray:
+  Enabled: false
