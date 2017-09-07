@@ -8,7 +8,7 @@ Style/SymbolProc:
   Enabled: false
 
 Style/RedundantSelf:
-  Enabled: false
+  Enabled: true
 
 Style/WordArray:
   Enabled: false

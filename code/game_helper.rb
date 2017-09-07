@@ -38,6 +38,10 @@ class GameHelper
       term.match(/\W/)
     end
   end
+
+  def count_of_terms
+    @all_words.size
+  end
 end
 
 # In class, we originally started defining member functions on the
@@ -64,7 +68,7 @@ end
 class Array
   # filter the words to only those with size at least one of the lengths
   def with_word_length(*list_of_possible_lengths)
-    select { |term| list_of_possible_lengths.any?{ |len| term.length == len }}
+    self.select { |term| list_of_possible_lengths.any?{ |len| term.length == len }}
   end
 
   # filter the words to only those that start with
@@ -74,13 +78,13 @@ class Array
   # that begin with any of the passed in characters instead
   # of a single character.
   def begins_with(letter)
-    select do |term|
+    self.select do |term|
       term[0] == letter
     end
   end
 
   def ends_with(*list_of_possible_letters)
-    select do |term|
+    self.select do |term|
       list_of_possible_letters.any? do |letter|
         letter == term[-1]
       end
@@ -96,7 +100,7 @@ class Array
   # filter the words to only those that do not
   # contain any of the passed-in letters
   def does_not_contain(*list_of_possible_letters)
-    select do |term|
+    self.select do |term|
       list_of_possible_letters.none? do |letter|
         term.match(/#{letter}/)
       end

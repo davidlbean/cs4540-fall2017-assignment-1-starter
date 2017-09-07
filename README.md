@@ -50,11 +50,59 @@ You register your Github username with your U-number with us.  | 20%
 Using the supplied code, your job is to add functionality so that the
 tests in game_helper_test.rb are executed without exceptions and return the correct
 results to satisfy the assertions.  There are generally two kinds of work you'll
-need to do to get the tests to pass:  1) notice that there are chunks of code missing
+need to do to get the tests to pass:  1) there are chunks of code missing
 in the game_helper.rb class.  Write the appropriate code for those missing chunks.
 2) there are a few tests that you'll need to write...they currently only assert false.
 Replace that line with code to drive the GameHelper class and verify the results
-are correct.  
+are correct.  Hint:  the TODO comments will guide you to where you need to work.
+
+To run the tests, just run the game_helper_test.rb script through ruby, e.g.:
+
+```
+  cd code
+  ruby game_helper_test.rb
+```
+
+You'll get a bunch of output.  Green dots represent tests that passed.  A red 'E' is an error, and a red 'F' is a failed test.  You need to fix all errors and failed tests until you get a test run with no failures, no errors, and no skips, e.g.:
+
+```
+Run options: --seed 25878
+
+# Running:
+
+.........
+
+Finished in 9.721343s, 0.9258 runs/s, 52924.9919 assertions/s.
+9 runs, 514502 assertions, 0 failures, 0 errors, 0 skips
+```
+
+When a test errors-out or fails, the tester will give you a message about the problem along with some context to help you find the issue.
+
+```
+F
+
+Failure:
+GameHelperTest#test_case_7 [game_helper_test.rb:86]:
+Expected false to be truthy.
+
+
+bin/rails test game_helper_test.rb:85
+
+.E
+
+Error:
+GameHelperTest#test_contains:
+NoMethodError: undefined method `each' for nil:NilClass
+    game_helper_test.rb:32:in `test_contains'
+
+
+bin/rails test game_helper_test.rb:27
+```
+
+The first issue is a failed test, i.e. the test expected something to be false but the expression turned out to be true...so something must be wrong in the logic of the code.  The test that triggered the problem was named test_case_7 and it failed on line 86 of game_helper_test.rb.  That tells you where to start looking.  
+
+The second issue is an error, triggered by the test_contains test at line 32 of game_helper_test.rb.  The error message comes from Ruby.  The code tried to call the each iterator on an object that was nil, i.e. an empty object.  If you look at the test, line 32 tried to call each on a variable named selected_terms.  selected_terms should have been populated by line 29 as a result of calling @gh.all_words.contains.  So, something happened in that line...probably the contains() function didn't operator properly.  This makes some sense because the test was designed to verify contains() operates correctly and it's clearly not!  If you look at the game_helper.rb file for the definition of contains(), you'll see there's nothing in the body of that function.  Write that function, and then the test should pass.
+
 
 For those of you interested, we're using a Ruby gem (aka library) called minitest
 to manage our test cases.  It's a nice, easy-to-understand gem that lets you write
@@ -71,10 +119,25 @@ run it, cd into your code directory and run 'rubocop .' from the command line.
 You may find Rubocop to be awfully persnickety, but following its rules will make
 you an easier to work with as a team member.
 
+If rubocop is not installed in your c9 environment, run this from the command line:
+
+```
+gem install rubocop
+```
 
 
 # Misc Notes
 
-An excellent article on how we'll be using Github.
+http://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow/ -- an excellent article on how we'll be using Github.
 
-http://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow/
+http://rubular.com -- a site for building and testing regular expressions in Ruby.
+
+Remember, if you get confused about something Ruby-related, like the iterators, or
+you want detail on something like regular expressions in Ruby, the Pickaxe book
+is your friend.  The first version is available online at http://ruby-doc.com/docs/ProgrammingRuby/.
+There are newer editions available to buy, but for most of our work you don't
+need them.  
+
+http://ruby-doc.org/core-2.4.1/ -- the Ruby API and standard libraries site.
+
+http://ruby-doc.org/ -- the base site for Ruby.  Links to tutorials, books, etc.

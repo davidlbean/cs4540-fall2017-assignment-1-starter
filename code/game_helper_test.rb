@@ -20,7 +20,7 @@ class GameHelperTest < Minitest::Test
     selected_terms = @gh.all_words.begins_with(letters)
     # verify every selected_term begins with a member of letters
     selected_terms.each do |term|
-      assert_operator letters, :include?, term[0]
+      assert letters.include?(term[0])
     end
   end
 
@@ -64,7 +64,7 @@ class GameHelperTest < Minitest::Test
 
   # 4- or 5-letter words that contain 'y' but don't end with 'y'
   def test_case_4
-    terms = @gh.all_words.with_word_length(4,5).contains('y').does_not_end_with('y')
+    terms = @gh.all_words.with_word_length(4,5)..does_not_end_with('y')
     assert(terms.all? { |term| [4, 5].include?(term.size) && term.match(/y/) && term.match(/[^y]\z/) })
   end
 
